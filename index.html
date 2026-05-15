@@ -1,0 +1,285 @@
+```react
+import React, { useState, useEffect } from 'react';
+import { 
+  User, 
+  Briefcase, 
+  FileText, 
+  Award, 
+  Phone, 
+  Mail, 
+  MessageCircle, 
+  ExternalLink,
+  ChevronRight,
+  ShieldCheck,
+  Stethoscope,
+  BookOpen,
+  Menu,
+  X
+} from 'lucide-react';
+
+const App = () => {
+  const [activeTab, setActiveTab] = useState('home');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Profile Data
+  const profile = {
+    name: "홍길동",
+    title: "건설 보건관리자 (Health Manager)",
+    slogan: "근로자의 건강이 곧 현장의 안전입니다.",
+    tags: ["산업위생관리기사", "인간공학기사", "심폐소생술 강사"],
+    experience: "경력 5년 (대형 건설사 3건 수행)",
+    contact: {
+      phone: "010-1234-5678",
+      email: "hgd_safety@email.com",
+      kakao: "healthmanager_hgd"
+    }
+  };
+
+  // Projects / Portfolio Data
+  const portfolios = [
+    {
+      id: 1,
+      category: "근골격계 질환 예방",
+      title: "현장 스트레칭 프로그램 도입",
+      period: "2023.03 - 2024.01",
+      result: "근골격계 유해요인 조사 결과 고위험군 30% 감소",
+      img: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80"
+    },
+    {
+      id: 2,
+      category: "작업환경 관리",
+      title: "하절기 온열질환 예방 캠페인",
+      period: "2023.06 - 2023.08",
+      result: "현장 내 쿨링센터 설치 및 제빙기 관리로 온열질환자 0명 달성",
+      img: "https://images.unsplash.com/photo-1590486803833-ffc6f71d5332?w=400&q=80"
+    },
+    {
+      id: 3,
+      category: "법적 대응",
+      title: "MSDS 관리 체계 디지털화",
+      period: "2022.10",
+      result: "QR코드를 활용한 화학물질 관리 시스템 구축",
+      img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&q=80"
+    }
+  ];
+
+  const renderHome = () => (
+    <div className="flex flex-col gap-6 pb-20">
+      {/* Hero Section */}
+      <section className="bg-slate-900 text-white p-8 rounded-b-3xl shadow-lg">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center text-3xl font-bold border-4 border-blue-400">
+            {profile.name[0]}
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold">{profile.name}</h1>
+            <p className="text-blue-300 text-sm font-medium">{profile.title}</p>
+          </div>
+        </div>
+        <p className="text-slate-300 italic mb-4">"{profile.slogan}"</p>
+        <div className="flex flex-wrap gap-2">
+          {profile.tags.map(tag => (
+            <span key={tag} className="bg-slate-800 text-xs px-2 py-1 rounded border border-slate-700">#{tag}</span>
+          ))}
+        </div>
+      </section>
+
+      {/* Quick Stats */}
+      <section className="grid grid-cols-3 gap-3 px-4">
+        <div className="bg-white p-4 rounded-2xl shadow-sm text-center border border-slate-100">
+          <ShieldCheck className="mx-auto text-blue-600 mb-2" size={24} />
+          <span className="text-[10px] text-slate-500 block">무재해</span>
+          <span className="text-sm font-bold">540일</span>
+        </div>
+        <div className="bg-white p-4 rounded-2xl shadow-sm text-center border border-slate-100">
+          <Stethoscope className="mx-auto text-green-600 mb-2" size={24} />
+          <span className="text-[10px] text-slate-500 block">검진율</span>
+          <span className="text-sm font-bold">100%</span>
+        </div>
+        <div className="bg-white p-4 rounded-2xl shadow-sm text-center border border-slate-100">
+          <BookOpen className="mx-auto text-orange-600 mb-2" size={24} />
+          <span className="text-[10px] text-slate-500 block">수료교육</span>
+          <span className="text-sm font-bold">12건</span>
+        </div>
+      </section>
+
+      {/* Recent Portfolio Preview */}
+      <section className="px-4">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-bold">주요 성과</h2>
+          <button onClick={() => setActiveTab('portfolio')} className="text-blue-600 text-sm flex items-center">
+            전체보기 <ChevronRight size={16} />
+          </button>
+        </div>
+        <div className="flex flex-col gap-4">
+          {portfolios.slice(0, 2).map(item => (
+            <div key={item.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 flex h-28">
+              <img src={item.img} alt={item.title} className="w-28 h-full object-cover" />
+              <div className="p-3 flex flex-col justify-center flex-1">
+                <span className="text-[10px] text-blue-600 font-bold uppercase">{item.category}</span>
+                <h3 className="text-sm font-bold text-slate-800 line-clamp-1">{item.title}</h3>
+                <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">{item.result}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+
+  const renderProfile = () => (
+    <div className="p-6 pb-24">
+      <h2 className="text-2xl font-bold mb-6">About Me</h2>
+      
+      <div className="space-y-6">
+        <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+          <h3 className="font-bold flex items-center gap-2 text-slate-800 mb-3">
+            <Briefcase size={18} className="text-blue-600" /> 핵심 경력
+          </h3>
+          <ul className="space-y-3 text-sm text-slate-600">
+            <li className="flex gap-2">
+              <span className="font-bold text-slate-800 shrink-0 italic">2021-현재</span>
+              <span>A건설 평택 공장 신축현장 (보건관리자)</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="font-bold text-slate-800 shrink-0 italic">2019-2021</span>
+              <span>B건설 마포 주상복합 현장 (보건관리자)</span>
+            </li>
+          </ul>
+        </div>
+
+        <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+          <h3 className="font-bold flex items-center gap-2 text-slate-800 mb-3">
+            <Award size={18} className="text-blue-600" /> 자격 및 학력
+          </h3>
+          <ul className="space-y-2 text-sm text-slate-600">
+            <li>• 산업위생관리기사</li>
+            <li>• 인간공학기사</li>
+            <li>• 심리상담사 2급</li>
+            <li>• OO대학교 환경보건학과 졸업</li>
+          </ul>
+        </div>
+
+        <div className="bg-blue-50 p-5 rounded-2xl border border-blue-100">
+          <h3 className="font-bold text-blue-800 mb-2">업무 가치관</h3>
+          <p className="text-sm text-blue-700 leading-relaxed">
+            법적 기준 준수를 넘어, 근로자가 스스로 건강을 챙길 수 있는 환경을 조성하는 것이 목표입니다. 
+            현장과의 끊임없는 소통을 통해 실질적인 보건 관리를 실현합니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderPortfolio = () => (
+    <div className="p-4 pb-24">
+      <h2 className="text-2xl font-bold mb-6 px-2">실무 아카이브</h2>
+      <div className="grid grid-cols-1 gap-6">
+        {portfolios.map(item => (
+          <div key={item.id} className="bg-white rounded-3xl overflow-hidden shadow-md border border-slate-100">
+            <img src={item.img} alt={item.title} className="w-full h-48 object-cover" />
+            <div className="p-5">
+              <div className="flex justify-between items-start mb-2">
+                <span className="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
+                  {item.category}
+                </span>
+                <span className="text-slate-400 text-xs italic">{item.period}</span>
+              </div>
+              <h3 className="text-lg font-bold text-slate-800 mb-2">{item.title}</h3>
+              <p className="text-sm text-slate-600 leading-relaxed mb-4">{item.result}</p>
+              <button className="w-full py-2 bg-slate-50 text-slate-700 rounded-xl text-sm font-medium flex items-center justify-center gap-2 border border-slate-200">
+                상세 보고서 보기 <ExternalLink size={14} />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-blue-100">
+      {/* Header */}
+      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100 px-4 py-3 flex justify-between items-center">
+        <div className="text-blue-600 font-black text-xl tracking-tight">HGD.Safety</div>
+        <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 text-slate-600">
+          {isMenuOpen ? <X /> : <Menu />}
+        </button>
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-md mx-auto min-h-screen">
+        {activeTab === 'home' && renderHome()}
+        {activeTab === 'profile' && renderProfile()}
+        {activeTab === 'portfolio' && renderPortfolio()}
+      </main>
+
+      {/* Bottom Navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex justify-around py-2 px-6 z-50 rounded-t-2xl shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.1)]">
+        <button 
+          onClick={() => setActiveTab('home')}
+          className={`flex flex-col items-center gap-1 transition-all ${activeTab === 'home' ? 'text-blue-600 scale-110' : 'text-slate-400'}`}
+        >
+          <User size={22} fill={activeTab === 'home' ? 'currentColor' : 'none'} />
+          <span className="text-[10px] font-bold">홈</span>
+        </button>
+        <button 
+          onClick={() => setActiveTab('profile')}
+          className={`flex flex-col items-center gap-1 transition-all ${activeTab === 'profile' ? 'text-blue-600 scale-110' : 'text-slate-400'}`}
+        >
+          <Briefcase size={22} fill={activeTab === 'profile' ? 'currentColor' : 'none'} />
+          <span className="text-[10px] font-bold">프로필</span>
+        </button>
+        <button 
+          onClick={() => setActiveTab('portfolio')}
+          className={`flex flex-col items-center gap-1 transition-all ${activeTab === 'portfolio' ? 'text-blue-600 scale-110' : 'text-slate-400'}`}
+        >
+          <FileText size={22} fill={activeTab === 'portfolio' ? 'currentColor' : 'none'} />
+          <span className="text-[10px] font-bold">포트폴리오</span>
+        </button>
+      </nav>
+
+      {/* Floating Action Button for Contact */}
+      <div className="fixed right-4 bottom-20 flex flex-col gap-2 z-40">
+        <a href={`tel:${profile.contact.phone}`} className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+          <Phone size={20} />
+        </a>
+        <a href={`mailto:${profile.contact.email}`} className="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+          <Mail size={20} />
+        </a>
+      </div>
+
+      {/* Simple Side Menu Overlay */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)}>
+          <div className="absolute right-0 top-0 h-full w-2/3 bg-white p-8 animate-in slide-in-from-right duration-300" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-10">
+              <h2 className="font-bold text-lg">Menu</h2>
+              <button onClick={() => setIsMenuOpen(false)}><X /></button>
+            </div>
+            <ul className="space-y-6">
+              <li className="flex items-center gap-3 text-lg font-medium text-slate-700" onClick={() => {setActiveTab('home'); setIsMenuOpen(false);}}>
+                <User size={20} /> 홈
+              </li>
+              <li className="flex items-center gap-3 text-lg font-medium text-slate-700" onClick={() => {setActiveTab('portfolio'); setIsMenuOpen(false);}}>
+                <FileText size={20} /> 실무 사례
+              </li>
+              <li className="flex items-center gap-3 text-lg font-medium text-slate-700">
+                <ExternalLink size={20} /> 블로그
+              </li>
+            </ul>
+            <div className="mt-20 pt-6 border-t border-slate-100">
+              <p className="text-xs text-slate-400">Copyright © 2024</p>
+              <p className="text-xs text-slate-400">{profile.name} All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default App;
+
+```
+
